@@ -14,7 +14,7 @@ const Login = ({ navigation }) => {
                 <Text style={styles.otentikasi}>Aplikasi E-Otentikasi</Text>
                 <Text style={styles.otentikasi}>BPJS Ketenagakerjaan</Text>
                 <TextInput style={styles.noIdentitas} onChangeText={setText} value={text} placeholder="Nomor Induk BPJSTK" autoFocus={true} underlineColorAndroid='gray' />
-                <TouchableOpacity style={styles.tombol}>
+                <TouchableOpacity style={styles.tombol} onPress={() => navigation.navigate("FaceRecognition")}>
                     <Text style={styles.proses}>Proses Otentikasi</Text>
                 </TouchableOpacity>
             </View>
