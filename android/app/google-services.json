@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "769688231874",
+    "project_id": "bpjstk-otentikasi",
+    "storage_bucket": "bpjstk-otentikasi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769688231874:android:37c316c4b96fed7827005b",
+        "android_client_info": {
+          "package_name": "com.bpjsotentikasi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769688231874-2c8lgdqjmtf0hoesss4cg62vmfjl1712.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATgODCc3kPcIYSo0A9Cww0YI3ha2_R6UY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769688231874-2c8lgdqjmtf0hoesss4cg62vmfjl1712.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
