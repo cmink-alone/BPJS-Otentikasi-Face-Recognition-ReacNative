@@ -13,7 +13,7 @@ const Login = ({ navigation }) => {
                 <Image style={styles.logo} source={logoBpjs} />
                 <Text style={styles.otentikasi}>Aplikasi E-Otentikasi</Text>
                 <Text style={styles.otentikasi}>BPJS Ketenagakerjaan</Text>
-                <TextInput style={styles.noIdentitas} onChangeText={setText} value={text} placeholder="Nomor Induk BPJSTK" />
+                <TextInput style={styles.noIdentitas} onChangeText={setText} value={text} placeholder="Nomor Induk BPJSTK" autoFocus={true} underlineColorAndroid='gray' />
                 <TouchableOpacity style={styles.tombol}>
                     <Text style={styles.proses}>Proses Otentikasi</Text>
                 </TouchableOpacity>
@@ -45,9 +45,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     noIdentitas: {
-        marginTop: 20,
+        marginTop: 30,
         height: 40,
-        borderWidth: 1,
+        paddingRight: 80,
+        fontSize: 17,
     },
     tombol: {
         backgroundColor: '#00AB66',
@@ -55,11 +56,11 @@ const styles = StyleSheet.create({
         // paddingHorizontal: 50,
         alignSelf: 'stretch',
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: 10,
         borderRadius: 10,
     },
     proses: {
-        fontSize: 15,
+        fontSize: 17,
         fontWeight: 'bold',
         color: 'white',
     }

@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react'
-import { ActivityIndicator, Button, Image, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Button, Image, StatusBar, StyleSheet, Text, View } from 'react-native'
 
 import logoBpjs from '../../assets/icon/logo-bpjs.png';
 
 const Splash = ({ navigation }) => {
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         navigation.replace('Home')
-    //     }, 2000);
-    // }, [])
+    useEffect(() => {
+        setTimeout(() => {
+            navigation.replace('Login')
+        }, 2000);
+    }, [])
     return (
         <View style={styles.container}>
+            <StatusBar hidden />
             <View>
                 {/* ini cuma view dummy */}
             </View>
