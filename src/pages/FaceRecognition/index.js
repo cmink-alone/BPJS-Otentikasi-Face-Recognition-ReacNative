@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, ActivityIndicator } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
 
@@ -12,10 +12,14 @@ export default class FaceRecognition extends React.Component {
     canDetectFaces: 1,
     faces: [],
     jmlIterasi: 0,
+    isRecognized: false,
   };
 
-  componentDidMount(){
+  componentDidMount() {
     console.log('-->>componen did mount')
+    setTimeout(() => {
+      this.setState({ isRecognized: true })
+    }, 2000);
   }
 
   // componentDidUpdate(){
@@ -28,7 +32,7 @@ export default class FaceRecognition extends React.Component {
   //   if (this.state.jmlIterasi == 20){
   //     // console.log(this.state.jmlIterasi);
   //     this.takePicture()
-      
+
   //     // nanti disini diisi sama loading waktu nge capture
   //   }
   //   else if (this.state.jmlIterasi < 20){
@@ -37,7 +41,7 @@ export default class FaceRecognition extends React.Component {
   // }
 
 
-  takePicture = async function() {
+  takePicture = async function () {
     if (this.camera) {
       const options = {
         quality: 1,
@@ -47,24 +51,24 @@ export default class FaceRecognition extends React.Component {
         fixOrientation: true,
       }
       const img = await this.camera.takePictureAsync(options);
-      this.setState({img})
+      this.setState({ img })
       console.warn('takePicture ', img);
       // membuat formdata
       const body = new FormData();
-      
+
       // mengambil img yang disimpan di state
-      body.append('img', {uri: img.uri, name: 'img.jpg', type: 'image/jpeg'});
-      
+      body.append('img', { uri: img.uri, name: 'img.jpg', type: 'image/jpeg' });
+
       // fetch ke api untuk upload gambar
-      fetch('http://192.168.8.104:5000/uploader',{
+      fetch('http://192.168.8.104:5000/uploader', {
         method: 'post',
         // headers: {
         //   'Content-Type': 'undefined'
         // },
         body,
       })
-      .then(a => a.text())
-      .then(res => console.log(res));
+        .then(a => a.text())
+        .then(res => console.log(res));
       console.log(img.uri)
     }
   };
@@ -169,71 +173,29 @@ export default class FaceRecognition extends React.Component {
         }
         onFacesDetected={canDetectFaces ? this.facesDetected : null}
       >
-        <View
-          style={{
-            flex: 0.5,
-          }}
-        >
-          {/* tombol bagian atas 1 */}
-          <View
-            style={{
-              backgroundColor: 'transparent',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
+        <View style={styles.myContainer}>
+          <View></View>
+          <View></View>
+          <TouchableOpacity style={styles.tombol} onPress={() => navigation.navigate("FaceRecognition")}>
+            <Text style={styles.proses}>Posisikan Wajah anda di Tengah</Text>
+          </TouchableOpacity>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.isRecognized}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!this.state.isRecognized);
             }}
           >
-          </View>
-          {/* akhir tombol bagian atas 1 */}
-
-          {/* tombol bagian atas 2 */}
-          <View
-            style={{
-              backgroundColor: 'transparent',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-            }}
-          >
-          </View>
-          {/* akhir tombol bagian atas 2 */}
-
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <ActivityIndicator style={styles.loading} size="large" color='#00ff00' />
+                <Text>Memproses</Text>
+              </View>
+            </View>
+          </Modal>
         </View>
-
-        {/* spacing atas dan bawah */}
-        <View
-          style={{
-            flex: 0.4,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
-            alignSelf: 'flex-end',
-          }}
-        >
-        </View>
-        {/* akhir spacing atas dan bawah */}
-
-        {/* tombol record */}
-        <View
-          style={{
-            flex: 0.1,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
-            alignSelf: 'flex-end',
-          }}
-        >
-        </View>
-        {/* akhir tombol record */}
-
-        {/* bar bawah */}
-        <View
-          style={{
-            flex: 0.15,
-            backgroundColor: '#FF0000',
-            flexDirection: 'row',
-            // alignSelf: 'flex-end',
-          }}
-        >
-          <Text>Halo Sayang</Text>
-        </View>
-        {/* akhir bar bawah */}
 
         {!!canDetectFaces && this.renderFaces()}
         {!!canDetectFaces && this.renderLandmarks()}
@@ -247,6 +209,11 @@ export default class FaceRecognition extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  myContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     // paddingTop: 10,
@@ -320,5 +287,60 @@ const styles = StyleSheet.create({
     position: 'absolute',
     textAlign: 'center',
     backgroundColor: 'transparent',
+  },
+  tombol: {
+    backgroundColor: '#00AB66',
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    // alignSelf: 'stretch',
+    alignItems: 'center',
+    marginBottom: 10,
+    borderRadius: 5,
+  },
+  proses: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
   },
 });
