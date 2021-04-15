@@ -12,13 +12,13 @@ export default class FaceRecognition extends React.Component {
     canDetectFaces: 1,
     faces: [],
     jmlIterasi: 0,
-    isRecognized: false,
+    isFace: false,
   };
 
   componentDidMount() {
     console.log('-->>componen did mount')
     setTimeout(() => {
-      this.setState({ isRecognized: true })
+      this.setState({ isFace: true })
     }, 2000);
   }
 
@@ -182,10 +182,10 @@ export default class FaceRecognition extends React.Component {
           <Modal
             animationType="slide"
             transparent={true}
-            visible={this.state.isRecognized}
+            visible={this.state.isFace}
             onRequestClose={() => {
               Alert.alert("Modal has been closed.");
-              setModalVisible(!this.state.isRecognized);
+              setModalVisible(!this.state.isFace);
             }}
           >
             <View style={styles.centeredView}>
