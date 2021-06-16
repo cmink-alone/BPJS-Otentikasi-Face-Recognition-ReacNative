@@ -1,10 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Button } from 'react-native'
 
-const Home = () => {
+const Home = ({navigation}) => {
     return (
         <View>
             <Text>Ini Halaman Beranda!!</Text>
+            <Button title="Masuk Ke Splash" onPress={() => navigation.navigate('Splash')} />
+
         </View>
     )
 }
