@@ -7,13 +7,21 @@ import logoBpjs from '../../assets/icon/logo-bpjs.png';
 const Login = ({ navigation }) => {
     const [text, setText] = useState("");
 
+    const loginUser = (user) => {
+        fetch('http://192.168.8.105:5000/api/v1/nasabah', {
+        method: 'get',
+      })
+        .then(a => a.text())
+        .then(res => console.log(res));
+    }
+
     return (
         <View style={styles.container} >
             <View style={styles.subContainer}>
                 <Image style={styles.logo} source={logoBpjs} />
                 <Text style={styles.otentikasi}>Aplikasi E-Otentikasi</Text>
                 <Text style={styles.otentikasi}>BPJS Ketenagakerjaan</Text>
-                <TextInput style={styles.noIdentitas} onChangeText={setText} value={text} placeholder="Nomor Induk BPJSTK" autoFocus={true} underlineColorAndroid='gray' />
+                <TextInput style={styles.noIdentitas} onChangeText={setText} value={text} placeholder="Nomor ID BPJSTK" autoFocus={true} underlineColorAndroid='gray' />
                 <TouchableOpacity style={styles.tombol} onPress={() => navigation.navigate("FaceRecognition")}>
                     <Text style={styles.proses}>Proses Otentikasi</Text>
                 </TouchableOpacity>
@@ -49,6 +57,7 @@ const styles = StyleSheet.create({
         height: 40,
         paddingRight: 80,
         fontSize: 17,
+        color: 'black'
     },
     tombol: {
         backgroundColor: '#00AB66',
