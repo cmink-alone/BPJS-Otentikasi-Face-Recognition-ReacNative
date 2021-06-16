@@ -12,33 +12,42 @@ export default class FaceRecognition extends React.Component {
     canDetectFaces: 1,
     faces: [],
     jmlIterasi: 0,
+    timerChallenge: 0,
     isFace: false,
+    isRecognized: false,
+    isRight: false,
+    isLeft: false,
   };
 
   componentDidMount() {
     console.log('-->>componen did mount')
+    alert('Anda telah masuk sebagai Muhamad Rizky Fajar Febrian')
     setTimeout(() => {
-      this.setState({ isFace: true })
-    }, 2000);
+      this.takePicture()
+    }, 5000);
   }
 
-  // componentDidUpdate(){
-  //   // kalau ada perubahan
-  //   setTimeout(() => {
-  //     this.setState({
-  //       jmlIterasi: this.state.jmlIterasi+1
-  //     })
-  //   },1000)
-  //   if (this.state.jmlIterasi == 20){
-  //     // console.log(this.state.jmlIterasi);
-  //     this.takePicture()
+  componentDidUpdate() {
+    // kalau ada perubahan
+    // setTimeout(() => {
+    //   this.setState({
+    //     jmlIterasi: this.state.jmlIterasi+1
+    //   })
+    // },1000)
+    // if (this.state.jmlIterasi <= 5) {
+    // }
+    // else{
 
-  //     // nanti disini diisi sama loading waktu nge capture
-  //   }
-  //   else if (this.state.jmlIterasi < 20){
-  //     console.log(this.state.faces);
-  //   }
-  // }
+    // }
+    // if (this.state.jmlIterasi == 5){
+    //   // console.log(this.state.jmlIterasi);
+    //   this.takePicture()
+
+    // }
+    // else if (this.state.jmlIterasi <= 5){
+    //   console.log(this.state.faces);
+    // }
+  }
 
 
   takePicture = async function () {
@@ -50,26 +59,35 @@ export default class FaceRecognition extends React.Component {
         pauseAfterCapture: true,
         fixOrientation: true,
       }
+
+      // nanti disini diisi sama loading waktu nge capture
+      this.setState({ isFace: true })
+
       const img = await this.camera.takePictureAsync(options);
       this.setState({ img })
       console.warn('takePicture ', img);
       // membuat formdata
       const body = new FormData();
 
+
       // mengambil img yang disimpan di state
       body.append('img', { uri: img.uri, name: 'img.jpg', type: 'image/jpeg' });
+      body.append('id_nasabah', '10492');
+      body.append('foto', 'Screenshot_from_2021-04-03_21-37-01.png');
 
       // fetch ke api untuk upload gambar
-      fetch('http://192.168.8.104:5000/uploader', {
-        method: 'post',
+      fetch('http://192.168.8.105:5000/api/v1/otentikasi/1', {
+        method: 'put',
         // headers: {
         //   'Content-Type': 'undefined'
         // },
-        body,
+        body: body
       })
         .then(a => a.text())
-        .then(res => console.log(res));
-      console.log(img.uri)
+        .then(this.props.navigation.navigate("Success"));
+
+        // navigation.navigate("Success")
+
     }
   };
 
@@ -176,7 +194,7 @@ export default class FaceRecognition extends React.Component {
         <View style={styles.myContainer}>
           <View></View>
           <View></View>
-          <TouchableOpacity style={styles.tombol} onPress={() => navigation.navigate("FaceRecognition")}>
+          <TouchableOpacity style={styles.tombol} onPress={() => this.props.navigation.navigate("Success")}>
             <Text style={styles.proses}>Posisikan Wajah anda di Tengah</Text>
           </TouchableOpacity>
           <Modal
@@ -204,6 +222,7 @@ export default class FaceRecognition extends React.Component {
   }
 
   render() {
+    const { navigation } = this.props;
     return <View style={styles.container}>{this.renderCamera()}</View>;
   }
 }
